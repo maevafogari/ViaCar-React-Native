@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "segundo_semestre",
-    "slug": "segundo_semestre",
+    "name": "ViaCar",
+    "slug": "ViaCar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "projetosecretaria",
+    "icon": "./assets/images/logo.png",
+    "scheme": "alugueldecarros",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -23,14 +23,14 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
