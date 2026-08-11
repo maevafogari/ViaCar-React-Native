@@ -2,7 +2,7 @@ import { View, Text, Image, Pressable } from "react-native";
   
   const Header = () => {
   return (
-     <View className="bg-[#F8F9FA] p-5 flex-row items-center justify-between">
+     <View className="bg-blue-400 p-5 flex-row items-center justify-between">
 
 <Image
   source={require("../../assets/images/logo.png")}
