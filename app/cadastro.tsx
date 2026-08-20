@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link } from "expo-router";
 import { View, ImageBackground, Image, Pressable, Text } from "react-native";
 import Campo from "@/components/campoTexto/campo";
 import Texto from "@/components/texto/texto";
 
 const Login = () => {
+    const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [telefone, setTelefone] = useState("");
 
     return (
         <ImageBackground
@@ -24,7 +25,13 @@ const Login = () => {
                       resizeMode="contain"
                     />
 
-                    <Texto textoG="Login"/>
+                    <Texto textoG="Cadastro"/>
+
+                      <Campo
+                        value={nome}
+                        setText={setNome}
+                        placeholder="Nome Completo"
+                    />
 
                     <Campo
                         value={email}
@@ -37,17 +44,19 @@ const Login = () => {
                         setText={setSenha}
                         placeholder="Senha"
                     />
+
+                      <Campo
+                        value={telefone}
+                        setText={setTelefone}
+                        placeholder="Telefone"
+                    />
                     
                      <Pressable
                           className=
                             "items-center rounded-lg bg-yellow-500 h-14 justify-center "
                         >
-                          <Text className="font-medium text-white" > Entrar </Text>
+                          <Text className="font-medium text-white"> Entrar </Text>
                         </Pressable>
-
-                        <Link href="/cadastro">
-                                <Text className=" flex items-center justify-center"> Cadastre-se </Text>
-                              </Link>
                       
 
                 </View>
