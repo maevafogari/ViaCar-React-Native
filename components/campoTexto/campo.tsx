@@ -1,25 +1,34 @@
-import { useState } from "react";
-import { View, Text, TextInput } from "react-native"
+import { View, Text, TextInput } from "react-native";
 
-   type CampoProps = {
-    label: string;
+type CampoProps = {
+    label?: string;
     placeholder?: string;
     value: string;
-    setText: React.Dispatch<React.SetStateAction<string>> //isso serve pra mudar o set
+    setText: React.Dispatch<React.SetStateAction<string>>;
+    className?: string;
 };
 
+const Campo = ({
+    value,
+    label,
+    placeholder = "",
+    setText,
+    className
+}: CampoProps) => {
 
-const Campo = ({ value, label, placeholder = "", setText}: CampoProps) => {
     return (
-        <View className="w-40"> 
-                <Text> {label} </Text>
-                <TextInput
+    <>
+            
+            <TextInput
                 value={value}
-                onChangeText={(e) => setText(e)}
-                className="bg-white"
-                placeholder={placeholder} />
-            </View> 
-    )
-}
+                onChangeText={setText}
+                className="border border-gray-300 rounded-full pl-4"
+                placeholder={placeholder}
+            />
 
-export default Campo
+            </>
+        
+    );
+};
+
+export default Campo;
