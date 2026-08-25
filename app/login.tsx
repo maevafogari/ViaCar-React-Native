@@ -1,60 +1,156 @@
-import { useState } from "react";
-import { Link } from "expo-router";
-import { View, ImageBackground, Image, Pressable, Text } from "react-native";
 import Campo from "@/components/campoTexto/campo";
 import Texto from "@/components/texto/texto";
+import "@/global.css";
 
-const Login = () => {
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
+import { BasicSignin } from "@/service/user.service";
+import { Link, useRouter } from "expo-router";
 
-    return (
-        <ImageBackground
-            source={require("../assets/images/fundoLogin.png")}
-            className="flex-1"
-            resizeMode="cover"
+import React, { useEffect, useState } from "react";
+
+import {
+  Alert,
+  Text,
+  View,
+  ImageBackground,
+  Image,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
+
+const App = () => {
+  const router = useRouter();
+
+  const [email, setEmail] = useState<string>("");
+  const [senha, setSenha] = useState<string>("");
+
+  const regex_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const [isErrorInEmail, setIsErrorInEmail] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (email == "") {
+      setIsErrorInEmail(false);
+    } else {
+      if (!regex_email.test(email)) {
+        setIsErrorInEmail(true);
+      } else {
+        setIsErrorInEmail(false);
+      }
+    }
+  }, [email]);
+
+  const regex_senha =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+  const [isErrorInSenha, setIsErrorInSenha] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (senha == "") {
+      setIsErrorInSenha(false);
+    } else {
+      if (!regex_senha.test(senha)) {
+        setIsErrorInSenha(true);
+      } else {
+        setIsErrorInSenha(false);
+      }
+    }
+  }, [senha]);
+
+  const onSubmit = async (email: string, senha: string) => {
+    try {
+      const resposta = await BasicSignin(email, senha);
+
+      if (resposta == 200) {
+        router.navigate("/");
+      }
+    } catch (error) {
+      Alert.alert("Usuário ou senha incorretos");
+      console.log(error);
+    }
+  };
+
+  return (
+    <ImageBackground
+      source={require("../assets/images/fundoLogin.png")}
+      className="flex-1"
+      resizeMode="cover"
+    >
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{
+            flexGrow: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            paddingVertical: 40,
+          }}
+          keyboardShouldPersistTaps="handled"
         >
-            <View className="flex-1 items-center justify-center">
+          <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
 
-                <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
-                    <Image
-                      source={require("../assets/images/logo.png")}
-                      className="w-40 h-20 self-center"
-                      style={{ width: 160, height: 80 }}
-                      resizeMode="contain"
-                    />
+            <Image
+              source={require("../assets/images/logo.png")}
+              className="w-40 h-20 self-center"
+              style={{
+                width: 160,
+                height: 80,
+              }}
+              resizeMode="contain"
+            />
 
-                    <Texto textoG="Login"/>
+            <Texto textoG="Login" />
 
-                    <Campo
-                        value={email}
-                        setText={setEmail}
-                        placeholder="Email"
-                    />
+            <Campo
+              label="E-mail"
+              value={email}
+              setValue={setEmail}
+              errorMessage="E-mail invalido"
+              placeholder="Digite o e-mail"
+              isError={isErrorInEmail}
+            />
 
-                    <Campo
-                        value={senha}
-                        setText={setSenha}
-                        placeholder="Senha"
-                    />
-                    
-                     <Pressable
-                          className=
-                            "items-center rounded-lg bg-yellow-500 h-14 justify-center "
-                        >
-                          <Text className="font-medium text-white" > Entrar </Text>
-                        </Pressable>
+            <Campo
+              label="Senha"
+              value={senha}
+              setValue={setSenha}
+              errorMessage="Senha invalida"
+              placeholder="Digite sua senha"
+              isError={isErrorInSenha}
+            />
 
-                        <Link href="/cadastro">
-                                <Text className=" flex items-center justify-center"> Cadastre-se </Text>
-                              </Link>
-                      
+            <Pressable
+              className="items-center rounded-lg bg-yellow-500 h-14 justify-center"
+              disabled={
+                isErrorInEmail ||
+                isErrorInSenha ||
+                email == "" ||
+                senha == ""
+              }
+              onPress={() => onSubmit(email, senha)}
+            >
+              <View className="justify-center items-center">
+                <Text className="text-black text-xl">
+                  Entrar
+                </Text>
+              </View>
+            </Pressable>
 
-                </View>
+          <Link href="/cadastro" className="w-full">
+  <Text className="text-center w-full">
+    Cadastre-se
+  </Text>
+</Link>
 
-            </View>
-        </ImageBackground>
-    );
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
+  );
 };
 
-export default Login;
+export default App;

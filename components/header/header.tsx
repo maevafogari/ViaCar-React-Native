@@ -1,52 +1,43 @@
-import { View, Text, Image, Pressable, Modal, Button, } from "react-native";
-import { Link } from "expo-router";
-import { useState } from "react";
+import { View, Image, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { DrawerHeaderProps } from "@react-navigation/drawer";
 
-const Header = () => {
-  const [modalAberto, setModalAberto] = useState(false);
+const Header = (props: DrawerHeaderProps) => {
+  const Voltar = props.navigation.canGoBack();
 
   return (
-    <View className="bg-[#F8F9FA] p-5 flex-row items-center justify-between">
-      <Image
-        source={require("../../assets/images/logo.png")}
-        className="w-40 h-20"
-        style={{ width: 160, height: 80 }}
-        resizeMode="contain"
-      />
+    <SafeAreaView className="bg-[#F8F9FA] flex-row items-center justify-between mt-4 h-32 px-4">
 
-      <Pressable className="bg-yellow-400 p-2 h-10 rounded-lg items-center justify-center">
-        <Text className="text-black font-bold">Reservar agora</Text>
-      </Pressable>
-
-      <View className="relative">
-
-  <Pressable
-    onPress={() => setModalAberto(!modalAberto)}
-    className=" mr-5 w-10 h-10 flex items-center justify-center"
-  >
-    <Text className="text-2xl">☰</Text>
-  </Pressable>
-
-  {modalAberto && (
-    <View className="absolute right-0 top-8 w-44 h-36 bg-white rounded-lg p-3 z-50">
-      <Text>Menu</Text>
-      
-      <Link href="/login">
-        <Text>Ir para login</Text>
-      </Link>
-
-         <Link href="/cadastro">
-        <Text>Ir para cadastro</Text>
-      </Link>
-
-      <Pressable onPress={() => setModalAberto(false)}>
-        <Text>Fechar</Text>
-      </Pressable>
-    </View>
+  {/* Voltar */}
+  {Voltar ? (
+    <Pressable onPress={() => props.navigation.goBack()}>
+      <Ionicons name="arrow-back" size={28} color="black" />
+    </Pressable>
+  ) : (
+    <View className="w-7" />
   )}
 
-</View>
-    </View>
+  {/* Logo */}
+  <Image
+    source={require("../../assets/images/logo.png")}
+    style={{ width: 170, height: 90 }}
+    resizeMode="contain"
+  />
+
+  {/* Drawer */}
+  <Pressable
+    onPress={() => props.navigation.openDrawer()}
+    className="items-center justify-center"
+  >
+    <Ionicons
+      name="menu"
+      size={32}
+      color="black"
+    />
+  </Pressable>
+
+</SafeAreaView>
   );
 };
 

@@ -7,7 +7,7 @@ type TextoProps = {
 
 const Texto = ({ textoG, className }: TextoProps) => {
   return (
-    <View className="flex justify-center items-center mb-5"> 
+    <View className="flex justify-center items-center"> 
  <Text className={`text-black text-2xl font-medium  ${className}`}>      
   {textoG} 
       </Text>
