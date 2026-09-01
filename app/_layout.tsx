@@ -48,6 +48,15 @@ export default function RootLayout() {
         }}
       />
 
+        <Drawer.Screen
+        name="erro"
+        options={{
+          drawerLabel: "Erro",
+          title: "Erro",
+        }}
+      />
+
+
      
     </Drawer>
   );
