@@ -31,6 +31,24 @@ export default function RootLayout() {
           title: "Cadastro",
         }}
       />
+
+        <Drawer.Screen
+        name="filtro"
+        options={{
+          drawerLabel: "Filtro",
+          title: "Filtro",
+        }}
+      />
+
+        <Drawer.Screen
+        name="sobrenos"
+        options={{
+          drawerLabel: "Sobre nós",
+          title: "Sobre nós",
+        }}
+      />
+
+     
     </Drawer>
   );
 }
