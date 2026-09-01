@@ -12,9 +12,6 @@ const Destaque = () => {
   return (
     <View>
       <Texto textoG="Veículos em Destaque" className="mt-5 p-5" />
-
-
-    
     </View>
   );
 };
