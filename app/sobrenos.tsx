@@ -8,11 +8,7 @@ import "@/global.css";
 
 export default function SobreNos() {
   return (
-    <ScrollView
-      className="flex-1 bg-[#F4F4F4]"
-      showsVerticalScrollIndicator={false}
-    >
-     
+    <ScrollView className="flex-1 bg-[#F4F4F4]">
       <View className="mx-4 mt-4 h-[230px] rounded-2xl overflow-hidden">
         <Image
           source={require("../assets/images/fundoLogin.png")}
@@ -41,7 +37,6 @@ export default function SobreNos() {
         </View>
       </View>
 
-      
       <View className="bg-white mx-4 mt-4 rounded-2xl p-5">
         <Text className="text-[#171717] text-2xl font-bold">
           Nossa história
@@ -66,7 +61,6 @@ export default function SobreNos() {
         </Text>
       </View>
 
-      
       <View className="mx-4 mt-5">
         <Text className="text-[#171717] text-2xl font-bold text-center">
           Nossos valores
@@ -75,8 +69,6 @@ export default function SobreNos() {
         <View className="h-5" />
 
         <View className="flex-row flex-wrap justify-between">
-         
-
           <View className="bg-white w-[48%] rounded-2xl p-5 mb-4">
             <View className="w-12 h-12 bg-[#FFF4D4] rounded-full items-center justify-center">
               <Ionicons
@@ -95,7 +87,6 @@ export default function SobreNos() {
             </Text>
           </View>
 
-          
           <View className="bg-white w-[48%] rounded-2xl p-5 mb-4">
             <View className="w-12 h-12 bg-[#FFF4D4] rounded-full items-center justify-center">
               <Ionicons name="person-outline" size={25} color="#E9A900" />
@@ -109,7 +100,6 @@ export default function SobreNos() {
               Equipe preparada para oferecer a melhor experiência.
             </Text>
           </View>
-
 
           <View className="bg-white w-[48%] rounded-2xl p-5 mb-4">
             <View className="w-12 h-12 bg-[#FFF4D4] rounded-full items-center justify-center">
@@ -125,7 +115,6 @@ export default function SobreNos() {
             </Text>
           </View>
 
-          
           <View className="bg-white w-[48%] rounded-2xl p-5 mb-4">
             <View className="w-12 h-12 bg-[#FFF4D4] rounded-full items-center justify-center">
               <Ionicons name="star-outline" size={25} color="#E9A900" />
