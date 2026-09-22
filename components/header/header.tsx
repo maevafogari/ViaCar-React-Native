@@ -1,7 +1,7 @@
 import { Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { DrawerHeaderProps } from "@react-navigation/drawer";
+import { DrawerHeaderProps } from "expo-router/drawer";
 
 const Header = (props: DrawerHeaderProps) => {
   return (

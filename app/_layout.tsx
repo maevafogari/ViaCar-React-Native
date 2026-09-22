@@ -9,7 +9,7 @@ export default function RootLayout() {
       }}
     >
       <Drawer.Screen
-        name="index"
+        name="home"
         options={{
           drawerLabel: "Home",
           title: "Home",
