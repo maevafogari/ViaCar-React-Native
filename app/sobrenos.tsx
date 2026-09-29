@@ -1,9 +1,6 @@
 import React from "react";
-
 import { View, Text, Image, ScrollView } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
-
 import { Link } from "expo-router";
 
 import "@/global.css";
@@ -14,9 +11,7 @@ export default function SobreNos() {
       <View className="mx-4 mt-4 h-[230px] rounded-2xl overflow-hidden">
         <Image
           source={require("../assets/images/fundoLogin.png")}
-
           className="absolute w-full h-full"
-
           resizeMode="cover"
         />
 
@@ -34,7 +29,6 @@ export default function SobreNos() {
 
           <Link
             href="/filtro"
-
             className="bg-[#FFC21C] self-start px-5 py-3 rounded-lg mt-4"
           >
             <Text className="text-black font-bold text-sm">Reservar agora</Text>
@@ -78,9 +72,7 @@ export default function SobreNos() {
             <View className="w-12 h-12 bg-[#FFF4D4] rounded-full items-center justify-center">
               <Ionicons
                 name="shield-checkmark-outline"
-
                 size={25}
-
                 color="#E9A900"
               />
             </View>
