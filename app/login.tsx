@@ -13,7 +13,7 @@ import {
   View,
   ImageBackground,
   Image,
-  Pressable,
+  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -58,18 +58,18 @@ const App = () => {
     }
   }, [senha]);
 
-  const onSubmit = async (email: string, senha: string) => {
-    try {
-      const resposta = await BasicSignin(email, senha);
+ const onSubmit = async (email: string, senha: string) => {
+  try {
+    const resposta = await BasicSignin(email, senha);
 
-      if (resposta == 200) {
-        router.navigate("/");
-      }
-    } catch (error) {
-      Alert.alert("Usuário ou senha incorretos");
-      console.log(error);
+    if (resposta == 200) {
+      router.navigate("/home");
     }
-  };
+  } catch (error) {
+    Alert.alert("Usuário ou senha incorretos");
+    console.log(error);
+  }
+};
 
   return (
     <ImageBackground
@@ -123,7 +123,7 @@ const App = () => {
               isError={isErrorInSenha}
             />
 
-            <Pressable
+            <TouchableOpacity
               className="items-center rounded-lg bg-yellow-500 h-14 justify-center"
               disabled={
                 isErrorInEmail ||
@@ -138,7 +138,7 @@ const App = () => {
                   Entrar
                 </Text>
               </View>
-            </Pressable>
+            </TouchableOpacity>
 
           <Link href="/cadastro" className="w-full">
   <Text className="text-center w-full">

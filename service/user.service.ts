@@ -8,8 +8,10 @@ export async function BasicSignin(email: string, password: string) {
       password,
     });
 
+    console.log(status)
+
     return status;
-  } catch (error) {
+  } catch (error) {;
     if (isAxiosError(error)) {
       return error.response?.status;
     }
