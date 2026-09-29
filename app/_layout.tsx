@@ -6,6 +6,10 @@ export default function RootLayout() {
     <Drawer
       screenOptions={{
         header: (props) => <Header {...props} />,
+        headerStatusBarHeight: 0,
+        headerStyle: {
+          backgroundColor: '#F8F9FA',
+        },
       }}
     >
       <Drawer.Screen
@@ -15,7 +19,6 @@ export default function RootLayout() {
           title: "Home",
         }}
       />
-
       <Drawer.Screen
         name="login"
         options={{
@@ -23,7 +26,6 @@ export default function RootLayout() {
           title: "Login",
         }}
       />
-
       <Drawer.Screen
         name="cadastro"
         options={{
@@ -31,41 +33,35 @@ export default function RootLayout() {
           title: "Cadastro",
         }}
       />
-
-        <Drawer.Screen
+      <Drawer.Screen
         name="filtro"
         options={{
           drawerLabel: "Filtro",
           title: "Filtro",
         }}
       />
-
-        <Drawer.Screen
+      <Drawer.Screen
         name="sobrenos"
         options={{
           drawerLabel: "Sobre nós",
           title: "Sobre nós",
         }}
       />
-
-        <Drawer.Screen
-        name="erro"
+      <Drawer.Screen
+        name="erro" 
         options={{
           drawerLabel: "Erro",
           title: "Erro",
+          headerShown: false, 
         }}
       />
-
-       <Drawer.Screen
+      <Drawer.Screen
         name="planos"
         options={{
           drawerLabel: "Planos",
           title: "Planos",
         }}
       />
-
-
-     
     </Drawer>
   );
 }

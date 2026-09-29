@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 
