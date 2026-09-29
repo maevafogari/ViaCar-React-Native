@@ -62,6 +62,13 @@ export default function RootLayout() {
           title: "Planos",
         }}
       />
+         <Drawer.Screen
+        name="detalhes"
+        options={{
+          drawerLabel: "Detalhes",
+          title: "Detalhes",
+        }}
+      />
     </Drawer>
   );
 }
