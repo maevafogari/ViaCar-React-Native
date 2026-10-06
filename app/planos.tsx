@@ -1,23 +1,12 @@
 import React from 'react';
 import {
-<<<<<<< HEAD
     StyleSheet,
     Text,
     View,
     Image,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView,
     StatusBar,
-=======
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
->>>>>>> maeva
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';

@@ -8,7 +8,7 @@ export default function RootLayout() {
         header: (props) => <Header {...props} />,
         headerStatusBarHeight: 0,
         headerStyle: {
-          backgroundColor: '#F8F9FA',
+          backgroundColor: "#F8F9FA",
         },
       }}
     >
@@ -48,11 +48,11 @@ export default function RootLayout() {
         }}
       />
       <Drawer.Screen
-        name="erro" 
+        name="erro"
         options={{
           drawerLabel: "Erro",
           title: "Erro",
-          headerShown: false, 
+          headerShown: false,
         }}
       />
       <Drawer.Screen
@@ -62,12 +62,10 @@ export default function RootLayout() {
           title: "Planos",
         }}
       />
-         <Drawer.Screen
-        name="detalhes"
-        options={{
-          drawerLabel: "Detalhes",
-          title: "Detalhes",
-        }}
+
+      <Drawer.Screen
+        name="cars/[id]"
+        options={{ drawerItemStyle: { display: "none" } }}
       />
     </Drawer>
   );
