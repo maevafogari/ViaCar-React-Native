@@ -1,5 +1,7 @@
-import Header from "@/components/header/header";
+
 import Texto from "@/components/texto/texto";
+import { getCarros } from "@/service/carro.service";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import React, { useEffect, useState } from "react";
 
@@ -10,12 +12,16 @@ import {
 } from "react-native";
 
 const Detalhes = () => {
-    <View> 
-
+    
+ <SafeAreaView className="flex-1 bg-[#EFEFEF]">
     <ScrollView>
+        
+
+        <Texto textoG="Alugue seu carro" className="p-5 mt-5" />
 
     </ScrollView>
-    </View>
+    </SafeAreaView>
+  
 }
 
 export default Detalhes

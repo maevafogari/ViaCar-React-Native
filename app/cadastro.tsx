@@ -17,6 +17,7 @@ import Texto from "@/components/texto/texto";
 
 import { BasicSignup } from "@/service/user.service";
 import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Cadastro = () => {
   const router = useRouter();
@@ -43,6 +44,7 @@ const Cadastro = () => {
   };
 
   return (
+    <SafeAreaView className="flex-1 bg-[#EFEFEF]">
     <ImageBackground
       source={require("../assets/images/fundoLogin.png")}
       className="flex-1"
@@ -121,6 +123,7 @@ const Cadastro = () => {
         </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
+    </SafeAreaView>
   );
 };
 

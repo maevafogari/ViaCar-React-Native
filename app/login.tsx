@@ -7,6 +7,9 @@ import { Link, useRouter } from "expo-router";
 
 import React, { useEffect, useState } from "react";
 
+import api from "@/lib/axios.config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
   Alert,
   Text,
@@ -18,6 +21,8 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const App = () => {
   const router = useRouter();
@@ -58,11 +63,20 @@ const App = () => {
     }
   }, [senha]);
 
- const onSubmit = async (email: string, senha: string) => {
-  try {
-    const resposta = await BasicSignin(email, senha);
 
-    if (resposta == 200) {
+
+const onSubmit = async (email: string, senha: string) => {
+  try {
+    const { data, status } = await api.post("/login", {
+      email,
+      password: senha,
+    });
+
+    if (status === 200) {
+      await AsyncStorage.multiSet([
+        ["id_usuario", String(data.id_usuarios)],
+        ["nome", data.nome ?? ""],
+      ]);
       router.navigate("/home");
     }
   } catch (error) {
@@ -72,6 +86,7 @@ const App = () => {
 };
 
   return (
+    <SafeAreaView className="flex-1 bg-[#EFEFEF]">
     <ImageBackground
       source={require("../assets/images/fundoLogin.png")}
       className="flex-1"
@@ -150,6 +165,7 @@ const App = () => {
         </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
+    </SafeAreaView>
   );
 };
 

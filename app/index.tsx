@@ -5,7 +5,7 @@ import { obterUserId } from "@/lib/secureStore";
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
 import "../global.css";
-// import Botao from "@/components/botao/botao";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const App = () => {
   const [userId, setUserId] = useState<string | null>(null);
