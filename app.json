@@ -4,37 +4,34 @@
     "slug": "ViaCar",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
+    "icon": "./assets/images/logoviacar.png",
     "scheme": "alugueldecarros",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/logoviacar.png",
+        "backgroundColor":"#FFFFFF"
       },
       "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/logo.png"
+      "favicon": "./assets/images/logoviacar.png"
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/logo.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#F8F9FA"
-        }
-      ],
+     [
+  "expo-splash-screen",
+  {
+    "image": "./assets/images/logoviacar.png",
+    "imageWidth": 120,
+    "resizeMode": "contain"
+  }
+],
       "expo-font",
       [
         "expo-image-picker",

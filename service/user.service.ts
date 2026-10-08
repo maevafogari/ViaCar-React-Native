@@ -34,12 +34,22 @@ export async function BasicSignup(
       telefone,
     });
 
-    return { status, id: data.id_usuarios as number | null };
+    return {
+      status,
+      id: data.id_usuarios as number | null,
+      campos: [] as string[],
+      mensagem: "",
+    };
   } catch (error) {
     if (isAxiosError(error)) {
-      return { status: error.response?.status, id: null };
+      return {
+        status: error.response?.status,
+        id: null,
+        campos: (error.response?.data?.campos ?? []) as string[],
+        mensagem: (error.response?.data?.error ?? "") as string,
+      };
     }
 
-    return { status: undefined, id: null };
+    return { status: undefined, id: null, campos: [] as string[], mensagem: "" };
   }
 }

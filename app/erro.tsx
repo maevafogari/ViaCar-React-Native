@@ -41,7 +41,7 @@ export default function NotFound() {
 
           <TouchableOpacity
             className="flex-1 py-3 rounded-lg items-center border border-[#FFC107]"
-            onPress={() => router.push("/filtro")}
+            onPress={() => router.push("/carros")}
           >
             <Text className="font-bold text-lg text-[#FFC107]">
               Ver veículos

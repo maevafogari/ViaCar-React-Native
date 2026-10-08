@@ -41,22 +41,52 @@ const Cadastro = () => {
     regexSenha.test(senha) &&
     telefone.length >= 10;
 
-  const onSubmit = async () => {
-    try {
-      const { status, id } = await BasicSignup(nome, email, senha, telefone);
+const ROTULOS: Record<string, string> = {
+  email: "e-mail",
+  telefone: "telefone",
+  nome: "nome",
+};
 
-      if (status === 201 && id) {
-        await AsyncStorage.setItem("id_usuario", String(id));
-        await AsyncStorage.setItem("nome_usuario", nome);
-        Alert.alert("Sucesso", "Cadastro realizado!");
-        router.replace("/home");
-      } else {
-        Alert.alert("Erro", "Não foi possível cadastrar.");
-      }
-    } catch {
-      Alert.alert("Erro", "Falha de conexão com o servidor.");
+const onSubmit = async () => {
+  const telefoneLimpo = telefone.replace(/\D/g, "");
+
+  const { status, id, campos, mensagem } = await BasicSignup(
+    nome.trim(),
+    email.trim(),
+    senha,
+    telefoneLimpo
+  );
+
+  if (status === 201 && id) {
+    await AsyncStorage.setItem("id_usuario", String(id));
+    Alert.alert("Sucesso", "Cadastro realizado!");
+    router.replace("/home");
+    return;
+  }
+
+  if (status === 409) {
+    const lista = campos.map((c) => ROTULOS[c] ?? c);
+    const texto =
+      lista.length === 1
+        ? `Este ${lista[0]} já está cadastrado.`
+        : `Estes dados já estão cadastrados: ${lista.join(", ")}.`;
+
+    if (campos.includes("email")) {
+      Alert.alert("Cadastro já existente")
+    } else {
+      Alert.alert("Dados já cadastrados", texto);
     }
-  };
+    return;
+  }
+
+  if (status === 400) {
+    Alert.alert("Dados inválidos", mensagem || "Confira os campos e tente novamente.");
+    return;
+  }
+
+ 
+  router.push("/erro");
+};
 
   return (
     <ImageBackground
@@ -81,7 +111,7 @@ const Cadastro = () => {
           >
             <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
               <Image
-                source={require("../assets/images/logo.png")}
+                source={require("../assets/images/logoviacar.png")}
                 style={{ width: 160, height: 80 }}
                 className="self-center"
                 resizeMode="contain"

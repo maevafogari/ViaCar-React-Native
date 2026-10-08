@@ -5,11 +5,11 @@ import { DrawerHeaderProps } from "expo-router/drawer";
 
 const Header = (props: DrawerHeaderProps) => {
   return (
-    <SafeAreaView className="bg-[#F8F9FA] flex-row items-center justify-center h-32 ">
+    <SafeAreaView className="bg-[#F8F9FA] flex-row items-center justify-center h-10 ">
 
       <Pressable
         onPress={() => props.navigation.openDrawer()}
-        className="absolute left-4 items-center justify-center "
+        className="absolute left-4 items-center justify-center mt-12 "
       >
         <Ionicons
           name="menu"
@@ -18,10 +18,10 @@ const Header = (props: DrawerHeaderProps) => {
         />
       </Pressable>
 
-      {/* Logo */}
+      
       <Image
-        source={require("../../assets/images/logo.png")}
-        style={{ width: 170, height: 90, marginTop: 15}}
+        source={require("../../assets/images/logoviacar.png")}
+        style={{ width: 170, height: 90, marginTop: 65}}
         resizeMode="contain"
       />
 

@@ -9,6 +9,7 @@ import api from "@/lib/axios.config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { isAxiosError } from "axios";
 
+
 import {
   Alert,
   Text,
@@ -75,30 +76,19 @@ const App = () => {
         router.replace("/home");
       }
     } catch (error) {
-      if (isAxiosError(error)) {
-        const status = error.response?.status;
+  console.log(error);
 
-        if (!error.response) {
-          Alert.alert(
-            "Sem conexão",
-            "Não foi possível conectar ao servidor. Verifique sua internet e tente novamente."
-          );
-        } else if (status === 401) {
-          Alert.alert("Falha no login", "E-mail ou senha incorretos.");
-        } else if (status === 400) {
-          Alert.alert("Campos obrigatórios", "Preencha o e-mail e a senha.");
-        } else if (status === 500) {
-          Alert.alert("Erro no servidor", "Tente novamente em alguns instantes.");
-        } else {
-          Alert.alert("Erro", "Não foi possível fazer login.");
-        }
-      } else {
-        Alert.alert("Erro", "Algo deu errado. Tente novamente.");
-      }
-      console.log(error);
-    } finally {
-      setCarregando(false);
-    }
+  if (isAxiosError(error) && error.response?.status === 401) {
+    Alert.alert("Falha no login", "E-mail ou senha incorretos.");
+  } else if (isAxiosError(error) && error.response?.status === 400) {
+    Alert.alert("Campos obrigatórios", "Preencha o e-mail e a senha.");
+  } else {
+    // sem conexão, 500 ou erro desconhecido
+    router.push("/erro");
+  }
+} finally {
+  setCarregando(false);
+}
   };
 
   const botaoDesabilitado = carregando;
@@ -126,7 +116,7 @@ const App = () => {
           >
             <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
               <Image
-                source={require("../assets/images/logo.png")}
+                source={require("../assets/images/logoviacar.png")}
                 style={{ width: 160, height: 80 }}
                 className="self-center"
                 resizeMode="contain"
