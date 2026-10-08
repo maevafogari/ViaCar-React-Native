@@ -1,13 +1,14 @@
 import React from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import "@/global.css";
 
 export default function SobreNos() {
   return (
+    <SafeAreaView className="flex-1 bg-[#EFEFEF]">
     <ScrollView className="flex-1 bg-[#F4F4F4]">
       <View className="mx-4 mt-4 h-[230px] rounded-2xl overflow-hidden">
         <Image
@@ -131,5 +132,6 @@ export default function SobreNos() {
         </View>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 }

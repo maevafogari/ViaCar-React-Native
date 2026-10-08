@@ -6,6 +6,10 @@ export default function RootLayout() {
     <Drawer
       screenOptions={{
         header: (props) => <Header {...props} />,
+        headerStatusBarHeight: 0,
+        headerStyle: {
+          backgroundColor: "#F8F9FA",
+        },
       }}
     >
       <Drawer.Screen
@@ -15,7 +19,6 @@ export default function RootLayout() {
           title: "Home",
         }}
       />
-
       <Drawer.Screen
         name="login"
         options={{
@@ -23,7 +26,6 @@ export default function RootLayout() {
           title: "Login",
         }}
       />
-
       <Drawer.Screen
         name="cadastro"
         options={{
@@ -31,32 +33,30 @@ export default function RootLayout() {
           title: "Cadastro",
         }}
       />
-
-        <Drawer.Screen
-        name="filtro"
+      <Drawer.Screen
+        name="carros"
         options={{
-          drawerLabel: "Filtro",
-          title: "Filtro",
+          drawerLabel: "Carros Disponíveis",
+          title: "Carros Disponíveis",
         }}
       />
-
-        <Drawer.Screen
+      <Drawer.Screen
         name="sobrenos"
         options={{
           drawerLabel: "Sobre nós",
           title: "Sobre nós",
         }}
       />
-
-        <Drawer.Screen
+      <Drawer.Screen
         name="erro"
         options={{
           drawerLabel: "Erro",
           title: "Erro",
+          headerShown: false,
+           drawerItemStyle: { display: "none" }
         }}
       />
-
-       <Drawer.Screen
+      <Drawer.Screen
         name="planos"
         options={{
           drawerLabel: "Planos",
@@ -64,8 +64,32 @@ export default function RootLayout() {
         }}
       />
 
+      <Drawer.Screen
+        name="cars/[id]"
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
 
-     
+       <Drawer.Screen
+        name="perfil"
+        options={{
+          drawerLabel: "Perfil",
+          title: "Perfil",
+        }}
+      />
+
+      <Drawer.Screen
+        name="index"
+        options={{
+          drawerLabel: "index",
+          title: "index",
+          headerShown: false,
+          drawerItemStyle: { display: "none" }
+        }}
+      />
+      
     </Drawer>
+
+      
+    
   );
 }

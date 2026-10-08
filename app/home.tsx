@@ -1,41 +1,47 @@
-import React, { useEffect, useState } from "react";
-import Texto from "@/components/texto/texto";
-import Header from "@/components/header/header";
-import Categoria from "@/components/categorias/categorias";
+import React from "react";
 import Fundo from "@/components/fundo/fundo";
+import Categoria from "@/components/categorias/categorias";
 import Destaque from "@/components/destaque/destaque";
 import CardCarro from "@/components/cardCarro/cardCarro";
 import Funciona from "@/components/funciona/funciona";
-import { ImageBackground, ScrollView, View, Text, Pressable } from "react-native";
+import { ImageBackground, ScrollView, Text, Pressable, TouchableOpacity  } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 const Home = () => {
-    return(
-        <View className="w-full h-full bg-[#F8F9FA]">
-        <ScrollView className="flex-1">
-          <Fundo />
+const router = useRouter();
 
-          <Categoria />
-          <Destaque />
-          <CardCarro />
-          <Funciona />
+  return (
+    <SafeAreaView className="flex-1 bg-[#F8F9FA]">
+      <ScrollView className="flex-1">
+        <Fundo />
 
-          <ImageBackground
-            source={require("../assets/images/LOCADORA.png")}
-            className="w-[400px] h-[230px] justify-center items-center"
-            resizeMode="cover"
-          >
-            <Text className="text-white text-2xl font-bold mb-4">
-              Reverve seu veículo agora
-            </Text>
+        <Categoria />
+        <Destaque />
+        <CardCarro />
+        <Funciona />
 
-            <Pressable className="bg-yellow-500 px-6 py-3 rounded-lg">
-              <Text className="text-white font-bold">Reservar</Text>
-            </Pressable>
-          </ImageBackground>
-        </ScrollView>
-      </View>
-    )
-}
+        <ImageBackground
+          source={require("../assets/images/LOCADORA.png")}
+          className="w-[400px] h-[230px] justify-center items-center"
+          resizeMode="cover"
+        >
+          <Text className="text-white text-2xl font-bold mb-4">
+            Reserve seu veículo agora
+          </Text>
 
-export default Home
+          <TouchableOpacity className="bg-yellow-500 px-6 py-3 rounded-lg"  onPress={() => router.push("/carros")}>
+            
+        <TouchableOpacity onPress={() => router.replace("/carros")}>
+      <Text className="text-white font-bold">Reservar</Text>
+    </TouchableOpacity>
+            
+            
+          </TouchableOpacity>
+        </ImageBackground>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
+export default Home;
