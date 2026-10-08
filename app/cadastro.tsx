@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import {
   View,
   ImageBackground,
@@ -11,13 +10,16 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Campo from "@/components/campoTexto/campo";
 import Texto from "@/components/texto/texto";
-
 import { BasicSignup } from "@/service/user.service";
-import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+
+const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!\%*?&]{8,}$/;
 
 const Cadastro = () => {
   const router = useRouter();
@@ -27,103 +29,116 @@ const Cadastro = () => {
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
 
-  const onSubmit = async () => {
-    const resposta = await BasicSignup(
-      nome,
-      email,
-      senha,
-      telefone
-    );
+ 
+  const erroNome = nome !== "" && nome.length < 3;
+  const erroEmail = email !== "" && !regexEmail.test(email);
+  const erroSenha = senha !== "" && !regexSenha.test(senha);
+  const erroTelefone = telefone !== "" && telefone.length < 10;
 
-    if (resposta === 201) {
-      Alert.alert("Cadastro realizado com sucesso!");
-      router.navigate("/login");
-    } else {
-      Alert.alert("Erro ao realizar cadastro");
+  const formularioValido =
+    nome.length >= 3 &&
+    regexEmail.test(email) &&
+    regexSenha.test(senha) &&
+    telefone.length >= 10;
+
+  const onSubmit = async () => {
+    try {
+      const { status, id } = await BasicSignup(nome, email, senha, telefone);
+
+      if (status === 201 && id) {
+        await AsyncStorage.setItem("id_usuario", String(id));
+        await AsyncStorage.setItem("nome_usuario", nome);
+        Alert.alert("Sucesso", "Cadastro realizado!");
+        router.replace("/home");
+      } else {
+        Alert.alert("Erro", "Não foi possível cadastrar.");
+      }
+    } catch {
+      Alert.alert("Erro", "Falha de conexão com o servidor.");
     }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#EFEFEF]">
     <ImageBackground
       source={require("../assets/images/fundoLogin.png")}
       className="flex-1"
       resizeMode="cover"
     >
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView
-          className="flex-1"
-          contentContainerStyle={{
-            flexGrow: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: 40,
-          }}
-          keyboardShouldPersistTaps="handled"
+      <SafeAreaView className="flex-1">
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
+          <ScrollView
+            className="flex-1"
+            contentContainerStyle={{
+              flexGrow: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 24,
+            }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
+              <Image
+                source={require("../assets/images/logo.png")}
+                style={{ width: 160, height: 80 }}
+                className="self-center"
+                resizeMode="contain"
+              />
 
-            <Image
-              source={require("../assets/images/logo.png")}
-              className="w-40 h-20 self-center"
-              style={{
-                width: 160,
-                height: 80,
-              }}
-              resizeMode="contain"
-            />
+              <Texto textoG="Cadastro" />
 
-            <Texto textoG="Cadastro" />
+              <Campo
+                label="Nome"
+                value={nome}
+                setValue={setNome}
+                errorMessage="Mínimo de 3 caracteres"
+                placeholder="Nome Completo"
+                isError={erroNome}
+              />
 
-            <Campo
-              label="Nome"
-              value={nome}
-              setValue={setNome}
-              placeholder="Nome Completo"
-              isError={false}
-            />
+              <Campo
+                label="Email"
+                value={email}
+                setValue={setEmail}
+                errorMessage="E-mail inválido"
+                placeholder="Email"
+                isError={erroEmail}
+              />
 
-            <Campo
-              label="Email"
-              value={email}
-              setValue={setEmail}
-              placeholder="Email"
-              isError={false}
-            />
+              <Campo
+                label="Senha"
+                value={senha}
+                setValue={setSenha}
+                errorMessage="Mín. 8 letras com maiúscula, número e símbolo (@$!%*?&)"
+                placeholder="Senha"
+                isError={erroSenha}
+              />
 
-            <Campo
-              label="Senha"
-              value={senha}
-              setValue={setSenha}
-              placeholder="Senha"
-              isError={false}
-            />
+              <Campo
+                label="Telefone"
+                value={telefone}
+                setValue={setTelefone}
+                errorMessage="Insira o DDD e número (mín. 10 dígitos)"
+                placeholder="Ex: 11999998888"
+                isError={erroTelefone}
+              />
 
-            <Campo
-              label="Telefone"
-              value={telefone}
-              setValue={setTelefone}
-              placeholder="Telefone"
-              isError={false}
-            />
-
-            <Pressable
-              className="items-center rounded-lg bg-yellow-500 h-14 justify-center"
-              onPress={onSubmit}
-            >
-              <Text className="text-black text-xl">
-                Cadastrar
-              </Text>
-            </Pressable>
-
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+              <Pressable
+                className={`items-center rounded-lg h-14 justify-center ${
+                  formularioValido ? "bg-yellow-500" : "bg-yellow-300"
+                }`}
+                disabled={!formularioValido}
+                onPress={onSubmit}
+              >
+                <Text className="text-black text-xl font-bold">Cadastrar</Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </ImageBackground>
-    </SafeAreaView>
   );
 };
 

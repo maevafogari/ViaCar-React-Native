@@ -2,13 +2,12 @@ import Campo from "@/components/campoTexto/campo";
 import Texto from "@/components/texto/texto";
 import "@/global.css";
 
-import { BasicSignin } from "@/service/user.service";
 import { Link, useRouter } from "expo-router";
-
 import React, { useEffect, useState } from "react";
 
 import api from "@/lib/axios.config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { isAxiosError } from "axios";
 
 import {
   Alert,
@@ -24,148 +23,154 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const App = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
-
-  const regex_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const [carregando, setCarregando] = useState<boolean>(false);
 
   const [isErrorInEmail, setIsErrorInEmail] = useState<boolean>(false);
 
   useEffect(() => {
-    if (email == "") {
+    if (email === "") {
       setIsErrorInEmail(false);
     } else {
-      if (!regex_email.test(email)) {
-        setIsErrorInEmail(true);
-      } else {
-        setIsErrorInEmail(false);
-      }
+      setIsErrorInEmail(!regexEmail.test(email.trim()));
     }
   }, [email]);
 
-  const regex_senha =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+  const onSubmit = async () => {
+    const emailLimpo = email.trim();
 
-  const [isErrorInSenha, setIsErrorInSenha] = useState<boolean>(false);
+    if (emailLimpo === "" && senha === "") {
+      Alert.alert("Campos vazios", "Preencha o e-mail e a senha.");
+      return;
+    }
+    if (emailLimpo === "") {
+      Alert.alert("E-mail obrigatório", "Digite o seu e-mail.");
+      return;
+    }
+    if (!regexEmail.test(emailLimpo)) {
+      Alert.alert("E-mail inválido", "Digite um e-mail válido, como nome@email.com.");
+      return;
+    }
+    if (senha === "") {
+      Alert.alert("Senha obrigatória", "Digite a sua senha.");
+      return;
+    }
 
-  useEffect(() => {
-    if (senha == "") {
-      setIsErrorInSenha(false);
-    } else {
-      if (!regex_senha.test(senha)) {
-        setIsErrorInSenha(true);
-      } else {
-        setIsErrorInSenha(false);
+    setCarregando(true);
+
+    try {
+      const { data, status } = await api.post("/login", {
+        email: emailLimpo,
+        password: senha,
+      });
+
+      if (status === 200) {
+        await AsyncStorage.setItem("id_usuario", String(data.id_usuarios));
+        router.replace("/home");
       }
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+
+        if (!error.response) {
+          Alert.alert(
+            "Sem conexão",
+            "Não foi possível conectar ao servidor. Verifique sua internet e tente novamente."
+          );
+        } else if (status === 401) {
+          Alert.alert("Falha no login", "E-mail ou senha incorretos.");
+        } else if (status === 400) {
+          Alert.alert("Campos obrigatórios", "Preencha o e-mail e a senha.");
+        } else if (status === 500) {
+          Alert.alert("Erro no servidor", "Tente novamente em alguns instantes.");
+        } else {
+          Alert.alert("Erro", "Não foi possível fazer login.");
+        }
+      } else {
+        Alert.alert("Erro", "Algo deu errado. Tente novamente.");
+      }
+      console.log(error);
+    } finally {
+      setCarregando(false);
     }
-  }, [senha]);
+  };
 
-
-
-const onSubmit = async (email: string, senha: string) => {
-  try {
-    const { data, status } = await api.post("/login", {
-      email,
-      password: senha,
-    });
-
-    if (status === 200) {
-      await AsyncStorage.multiSet([
-        ["id_usuario", String(data.id_usuarios)],
-        ["nome", data.nome ?? ""],
-      ]);
-      router.navigate("/home");
-    }
-  } catch (error) {
-    Alert.alert("Usuário ou senha incorretos");
-    console.log(error);
-  }
-};
+  const botaoDesabilitado = carregando;
 
   return (
-    <SafeAreaView className="flex-1 bg-[#EFEFEF]">
     <ImageBackground
       source={require("../assets/images/fundoLogin.png")}
       className="flex-1"
       resizeMode="cover"
     >
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView
-          className="flex-1"
-          contentContainerStyle={{
-            flexGrow: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            paddingVertical: 40,
-          }}
-          keyboardShouldPersistTaps="handled"
+      <SafeAreaView className="flex-1">
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
+          <ScrollView
+            className="flex-1"
+            contentContainerStyle={{
+              flexGrow: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 16,
+            }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View className="bg-white w-[300px] rounded-xl p-4 gap-3">
+              <Image
+                source={require("../assets/images/logo.png")}
+                style={{ width: 160, height: 80 }}
+                className="self-center"
+                resizeMode="contain"
+              />
 
-            <Image
-              source={require("../assets/images/logo.png")}
-              className="w-40 h-20 self-center"
-              style={{
-                width: 160,
-                height: 80,
-              }}
-              resizeMode="contain"
-            />
+              <Texto textoG="Login" />
 
-            <Texto textoG="Login" />
+              <Campo
+                label="E-mail"
+                value={email}
+                setValue={setEmail}
+                errorMessage="E-mail inválido"
+                placeholder="Digite o e-mail"
+                isError={isErrorInEmail}
+              />
 
-            <Campo
-              label="E-mail"
-              value={email}
-              setValue={setEmail}
-              errorMessage="E-mail invalido"
-              placeholder="Digite o e-mail"
-              isError={isErrorInEmail}
-            />
+              <Campo
+                label="Senha"
+                value={senha}
+                setValue={setSenha}
+                placeholder="Digite sua senha"
+                isError={false}
+              />
 
-            <Campo
-              label="Senha"
-              value={senha}
-              setValue={setSenha}
-              errorMessage="Senha invalida"
-              placeholder="Digite sua senha"
-              isError={isErrorInSenha}
-            />
-
-            <TouchableOpacity
-              className="items-center rounded-lg bg-yellow-500 h-14 justify-center"
-              disabled={
-                isErrorInEmail ||
-                isErrorInSenha ||
-                email == "" ||
-                senha == ""
-              }
-              onPress={() => onSubmit(email, senha)}
-            >
-              <View className="justify-center items-center">
-                <Text className="text-black text-xl">
-                  Entrar
+              <TouchableOpacity
+                className={`items-center rounded-lg h-14 justify-center ${
+                  botaoDesabilitado ? "bg-yellow-300" : "bg-yellow-500"
+                }`}
+                disabled={botaoDesabilitado}
+                onPress={onSubmit}
+              >
+                <Text className="text-black text-xl font-bold">
+                  {carregando ? "Entrando..." : "Entrar"}
                 </Text>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
 
-          <Link href="/cadastro" className="w-full">
-  <Text className="text-center w-full">
-    Cadastre-se
-  </Text>
-</Link>
-
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+              <Link href="/cadastro" className="w-full">
+                <Text className="text-center w-full">Cadastre-se</Text>
+              </Link>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     </ImageBackground>
-    </SafeAreaView>
   );
 };
 

@@ -4,7 +4,7 @@ import Categoria from "@/components/categorias/categorias";
 import Destaque from "@/components/destaque/destaque";
 import CardCarro from "@/components/cardCarro/cardCarro";
 import Funciona from "@/components/funciona/funciona";
-import { ImageBackground, ScrollView, Text, Pressable, TouchableOpacity } from "react-native";
+import { ImageBackground, ScrollView, Text, Pressable, TouchableOpacity  } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 
@@ -30,9 +30,13 @@ const router = useRouter();
             Reserve seu veículo agora
           </Text>
 
-          <TouchableOpacity className="bg-yellow-500 px-6 py-3 rounded-lg"  onPress={() => router.push("/filtro")}>
+          <TouchableOpacity className="bg-yellow-500 px-6 py-3 rounded-lg"  onPress={() => router.push("/carros")}>
             
-            <Text className="text-white font-bold">Reservar</Text>
+        <TouchableOpacity onPress={() => router.replace("/carros")}>
+      <Text className="text-white font-bold">Reservar</Text>
+    </TouchableOpacity>
+            
+            
           </TouchableOpacity>
         </ImageBackground>
       </ScrollView>

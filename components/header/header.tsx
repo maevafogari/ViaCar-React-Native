@@ -5,9 +5,8 @@ import { DrawerHeaderProps } from "expo-router/drawer";
 
 const Header = (props: DrawerHeaderProps) => {
   return (
-    <SafeAreaView className="bg-[#F8F9FA] flex-row items-center justify-center mt-4 h-24 px-4">
+    <SafeAreaView className="bg-[#F8F9FA] flex-row items-center justify-center h-32 ">
 
-      {/* Drawer */}
       <Pressable
         onPress={() => props.navigation.openDrawer()}
         className="absolute left-4 items-center justify-center "

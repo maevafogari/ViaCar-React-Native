@@ -40,7 +40,6 @@ const CarroCard = () => {
   const [carro, setCarro] = useState<Carro | null>(null);
   const [load, setLoad] = useState<boolean>(true);
 
-
   const [localRetirada, setLocalRetirada] = useState(LOCAIS[0]);
   const [localDevolucao, setLocalDevolucao] = useState(LOCAIS[0]);
   const [dataRetirada, setDataRetirada] = useState(new Date());
@@ -68,8 +67,6 @@ const CarroCard = () => {
         });
 
       return () => {
-
-        
         ativo = false;
       };
     }, [id]),
@@ -98,7 +95,8 @@ const CarroCard = () => {
     setPicker(null);
     if (!selecionada || !atual) return;
 
-    const setar = atual.campo === "retirada" ? setDataRetirada : setDataDevolucao;
+    const setar =
+      atual.campo === "retirada" ? setDataRetirada : setDataDevolucao;
     setar((anterior) => {
       const nova = new Date(anterior);
       if (atual.modo === "date") {
@@ -115,34 +113,40 @@ const CarroCard = () => {
   };
 
   const reservar = async () => {
-  if (dataDevolucao <= dataRetirada) {
-    Alert.alert("Datas inválidas", "A devolução deve ser depois da retirada.");
-    return;
-  }
+    if (dataDevolucao <= dataRetirada) {
+      Alert.alert(
+        "Datas inválidas",
+        "A devolução deve ser depois da retirada.",
+      );
+      return;
+    }
 
-  const id_usuarios = Number(await AsyncStorage.getItem("id_usuario"));
+    const id_usuarios = Number(await AsyncStorage.getItem("id_usuario"));
 
-  if (!id_usuarios) {
-    Alert.alert("Faça login", "Você precisa estar logado para reservar.");
-    return;
-  }
+    if (!id_usuarios) {
+      Alert.alert("Faça login", "Você precisa estar logado para reservar.");
+      return;
+    }
 
-  try {
-    await api.post("/agendamento", {
-      local_retirada: localRetirada,
-      local_devolucao: localDevolucao,
-      dat_aluguel: dataRetirada.toISOString(),
-      datprevista_devolucao: dataDevolucao.toISOString(),
-      id_usuarios,
-      id_carros: carro.id_carros,
-      dias_alugados: dias,
-      valor_total: total,
-    });
-    Alert.alert("Pronto!", "Reserva criada com sucesso.");
-  } catch (err: any) {
-    Alert.alert("Erro", err?.response?.data?.error ?? "Não foi possível reservar.");
-  }
-};
+    try {
+      await api.post("/agendamento", {
+        local_retirada: localRetirada,
+        local_devolucao: localDevolucao,
+        dat_aluguel: dataRetirada.toISOString(),
+        datprevista_devolucao: dataDevolucao.toISOString(),
+        id_usuarios,
+        id_carros: carro.id_carros,
+        dias_alugados: dias,
+        valor_total: total,
+      });
+      Alert.alert("Pronto!", "Reserva criada com sucesso.");
+    } catch (err: any) {
+      Alert.alert(
+        "Erro",
+        err?.response?.data?.error ?? "Não foi possível reservar.",
+      );
+    }
+  };
 
   const Select = ({
     label,
@@ -194,100 +198,105 @@ const CarroCard = () => {
   );
 
   return (
-
     <SafeAreaView className="flex-1 bg-[#EFEFEF]">
-    
-    <ScrollView className="flex-1 bg-white" contentContainerClassName="p-3 pb-10">
-      <View className="flex-row items-center gap-3 pt-10">
-        {imagemUri ? (
-          <Image
-            source={{ uri: imagemUri }}
-            style={{ width: 240, height: 140, borderRadius: 8 }}
-            resizeMode="cover"
-          />
-        ) : (
-          <View
-            style={{ width: 140, height: 100, borderRadius: 8 }}
-            className="bg-gray-300 items-center justify-center"
-          >
-            <Text>Sem foto</Text>
-          </View>
-        )}
-
-        <View className="flex-1 gap-1">
-          <Text className="text-black text-2xl font-bold">{carro.modelo}</Text>
-          <Text className="text-black text-base">{carro.marca_fabricante}</Text>
-          <Text className="text-black text-lg font-semibold">
-            {moeda(valorDiaNum)} / dia
-          </Text>
-        </View>
-      </View>
-
-      <Text className="text-black text-2xl font-semibold pt-10 pb-3">
-        Detalhes da Reserva
-      </Text>
-
-      <View className="gap-4">
-        <Select
-          label="Local de Retirada"
-          value={localRetirada}
-          onChange={setLocalRetirada}
-        />
-        <CampoDataHora
-          label="Data e Hora de Retirada"
-          campo="retirada"
-          data={dataRetirada}
-        />
-
-        <Select
-          label="Local de Devolução"
-          value={localDevolucao}
-          onChange={setLocalDevolucao}
-        />
-        <CampoDataHora
-          label="Data e Hora de Devolução"
-          campo="devolucao"
-          data={dataDevolucao}
-        />
-      </View>
-
-      <View className="mt-6 gap-1 border-t border-gray-200 pt-4">
-        <Text className="text-black font-semibold">Resumo</Text>
-        <View className="flex-row justify-between">
-          <Text className="text-gray-700">
-            {formatarData(dataRetirada)} a {formatarData(dataDevolucao)}
-          </Text>
-          <Text className="text-gray-700">
-            {dias} {dias === 1 ? "dia" : "dias"}
-          </Text>
-        </View>
-        <View className="flex-row justify-between">
-          <Text className="text-gray-700">Valor da diária</Text>
-          <Text className="text-gray-700">{moeda(valorDiaNum)}</Text>
-        </View>
-        <View className="flex-row justify-between pt-2">
-          <Text className="text-black text-lg font-bold">Total</Text>
-          <Text className="text-black text-lg font-bold">{moeda(total)}</Text>
-        </View>
-      </View>
-
-      <Pressable
-        onPress={reservar}
-        className="bg-yellow-400 rounded-xl py-4 mt-6 items-center"
+      <ScrollView
+        className="flex-1 bg-white"
+        contentContainerClassName="p-3 pb-10"
       >
-        <Text className="text-black text-lg font-bold">Alugue Agora</Text>
-      </Pressable>
+        <View className="flex-row items-center gap-3 pt-10">
+          {imagemUri ? (
+            <Image
+              source={{ uri: imagemUri }}
+              style={{ width: 240, height: 140, borderRadius: 8 }}
+              resizeMode="cover"
+            />
+          ) : (
+            <View
+              style={{ width: 140, height: 100, borderRadius: 8 }}
+              className="bg-gray-300 items-center justify-center"
+            >
+              <Text>Sem foto</Text>
+            </View>
+          )}
 
-      {picker && (
-        <DateTimePicker
-          value={picker.campo === "retirada" ? dataRetirada : dataDevolucao}
-          mode={picker.modo}
-          is24Hour
-          minimumDate={picker.modo === "date" ? new Date() : undefined}
-          onChange={aoMudarData}
-        />
-      )}
-    </ScrollView>
+          <View className="flex-1 gap-1">
+            <Text className="text-black text-2xl font-bold">
+              {carro.modelo}
+            </Text>
+            <Text className="text-black text-base">
+              {carro.marca_fabricante}
+            </Text>
+            <Text className="text-black text-lg font-semibold">
+              {moeda(valorDiaNum)} / dia
+            </Text>
+          </View>
+        </View>
+
+        <Text className="text-black text-2xl font-semibold pt-10 pb-3">
+          Detalhes da Reserva
+        </Text>
+
+        <View className="gap-4">
+          <Select
+            label="Local de Retirada"
+            value={localRetirada}
+            onChange={setLocalRetirada}
+          />
+          <CampoDataHora
+            label="Data e Hora de Retirada"
+            campo="retirada"
+            data={dataRetirada}
+          />
+
+          <Select
+            label="Local de Devolução"
+            value={localDevolucao}
+            onChange={setLocalDevolucao}
+          />
+          <CampoDataHora
+            label="Data e Hora de Devolução"
+            campo="devolucao"
+            data={dataDevolucao}
+          />
+        </View>
+
+        <View className="mt-6 gap-1 border-t border-gray-200 pt-4">
+          <Text className="text-black font-semibold">Resumo</Text>
+          <View className="flex-row justify-between">
+            <Text className="text-gray-700">
+              {formatarData(dataRetirada)} a {formatarData(dataDevolucao)}
+            </Text>
+            <Text className="text-gray-700">
+              {dias} {dias === 1 ? "dia" : "dias"}
+            </Text>
+          </View>
+          <View className="flex-row justify-between">
+            <Text className="text-gray-700">Valor da diária</Text>
+            <Text className="text-gray-700">{moeda(valorDiaNum)}</Text>
+          </View>
+          <View className="flex-row justify-between pt-2">
+            <Text className="text-black text-lg font-bold">Total</Text>
+            <Text className="text-black text-lg font-bold">{moeda(total)}</Text>
+          </View>
+        </View>
+
+        <Pressable
+          onPress={reservar}
+          className="bg-yellow-400 rounded-xl py-4 mt-6 items-center"
+        >
+          <Text className="text-black text-lg font-bold">Alugue Agora</Text>
+        </Pressable>
+
+        {picker && (
+          <DateTimePicker
+            value={picker.campo === "retirada" ? dataRetirada : dataDevolucao}
+            mode={picker.modo}
+            is24Hour
+            minimumDate={picker.modo === "date" ? new Date() : undefined}
+            onChange={aoMudarData}
+          />
+        )}
+      </ScrollView>
     </SafeAreaView>
   );
 };

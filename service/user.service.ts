@@ -27,19 +27,19 @@ export async function BasicSignup(
   telefone: string
 ) {
   try {
-    const { status } = await api.post("/cadastro", {
+    const { data, status } = await api.post("/cadastro", {
       user,
       email,
       password,
       telefone,
     });
 
-    return status;
+    return { status, id: data.id_usuarios as number | null };
   } catch (error) {
     if (isAxiosError(error)) {
-      return error.response?.status;
+      return { status: error.response?.status, id: null };
     }
 
-    return undefined;
+    return { status: undefined, id: null };
   }
 }

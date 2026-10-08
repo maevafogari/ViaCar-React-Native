@@ -34,10 +34,10 @@ export default function RootLayout() {
         }}
       />
       <Drawer.Screen
-        name="filtro"
+        name="carros"
         options={{
-          drawerLabel: "Filtro",
-          title: "Filtro",
+          drawerLabel: "Carros Disponíveis",
+          title: "Carros Disponíveis",
         }}
       />
       <Drawer.Screen
@@ -53,6 +53,7 @@ export default function RootLayout() {
           drawerLabel: "Erro",
           title: "Erro",
           headerShown: false,
+           drawerItemStyle: { display: "none" }
         }}
       />
       <Drawer.Screen
@@ -67,6 +68,28 @@ export default function RootLayout() {
         name="cars/[id]"
         options={{ drawerItemStyle: { display: "none" } }}
       />
+
+       <Drawer.Screen
+        name="perfil"
+        options={{
+          drawerLabel: "Perfil",
+          title: "Perfil",
+        }}
+      />
+
+      <Drawer.Screen
+        name="index"
+        options={{
+          drawerLabel: "index",
+          title: "index",
+          headerShown: false,
+          drawerItemStyle: { display: "none" }
+        }}
+      />
+      
     </Drawer>
+
+      
+    
   );
 }
