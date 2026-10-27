@@ -21,7 +21,7 @@ const Header = (props: DrawerHeaderProps) => {
       
       <Image
         source={require("../../assets/images/logoviacar.png")}
-        style={{ width: 170, height: 90, marginTop: 65}}
+        style={{ width: 170, height: 90, marginTop: 55}}
         resizeMode="contain"
       />
 

@@ -1,8 +1,10 @@
 import { Drawer } from "expo-router/drawer";
 import Header from "@/components/header/header";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 export default function RootLayout() {
   return (
+     <KeyboardProvider statusBarTranslucent navigationBarTranslucent>
     <Drawer
       screenOptions={{
         header: (props) => <Header {...props} />,
@@ -86,8 +88,19 @@ export default function RootLayout() {
           drawerItemStyle: { display: "none" }
         }}
       />
+
+       <Drawer.Screen
+        name="senha"
+        options={{
+          drawerLabel: "senha",
+          title: "senha",
+          drawerItemStyle: { display: "none" }
+        }}
+      />
+      
       
     </Drawer>
+    </KeyboardProvider>
 
       
     

@@ -15,6 +15,9 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useRouter } from "expo-router";
+
+
 
 const LOCAIS = [
   "Aeroporto de Congonhas",
@@ -35,6 +38,8 @@ const moeda = (n: number) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 const CarroCard = () => {
+   const router = useRouter();
+
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const [carro, setCarro] = useState<Carro | null>(null);
@@ -139,7 +144,16 @@ const CarroCard = () => {
         dias_alugados: dias,
         valor_total: total,
       });
-      Alert.alert("Pronto!", "Reserva criada com sucesso.");
+      Alert.alert(
+        "Pronto!",
+        "Reserva criada com sucesso.",
+        [
+          {
+            text: "OK",
+            onPress: () => router.replace("/home"), // Altere para a rota desejada (ex: "/home", "/minhas-reservas", etc.)
+          },
+        ]
+      );
     } catch (err: any) {
       Alert.alert(
         "Erro",

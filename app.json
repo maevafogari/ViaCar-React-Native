@@ -14,9 +14,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logoviacar.png",
-        "backgroundColor":"#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "softwareKeyboardLayoutMode": "resize"
       },
-      "softwareKeyboardLayoutMode": "resize"
+      "softwareKeyboardLayoutMode": "resize",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.anonymous.ViaCar"
     },
     "web": {
       "output": "static",
@@ -24,14 +29,14 @@
     },
     "plugins": [
       "expo-router",
-     [
-  "expo-splash-screen",
-  {
-    "image": "./assets/images/logoviacar.png",
-    "imageWidth": 120,
-    "resizeMode": "contain"
-  }
-],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logoviacar.png",
+          "imageWidth": 120,
+          "resizeMode": "contain"
+        }
+      ],
       "expo-font",
       [
         "expo-image-picker",
